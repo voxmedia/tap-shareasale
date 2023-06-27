@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pendulum
 from singer_sdk import typing as th  # JSON Schema typing helpers
 
 from tap_shareasale.client import ShareasaleStream
@@ -160,4 +161,20 @@ class ActivityStream(ShareasaleStream):
             field_type = field_tuple[1]
             if field_name in new_row:
                 new_row[field_name] = set_none_or_cast(new_row[field_name], field_type)
-        return new_row
+        for field_tuple in [
+            ("Trans_Date", "MM/DD/YYYY hh:mm:ss A"),
+            ("Reversal_Date", "YYYY-MM-DD HH:mm:ss.S"),
+            ("Click_Date", "YYYY-MM-DD HH:mm:ss.SSS"),
+            ("Lock_Date", "YYYY-MM-DD"),
+        ]:
+            if (
+                field_tuple[0] in new_row
+                and new_row[field_tuple[0]] is not None
+                and new_row[field_tuple[0]] != ""
+            ):
+                new_row[field_tuple[0]] = pendulum.from_format(
+                    new_row[field_tuple[0]],
+                    field_tuple[1],
+                ).format(
+                    "YYYY-MM-DD HH:mm:ss",
+                )
