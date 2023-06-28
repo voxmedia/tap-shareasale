@@ -137,11 +137,6 @@ class ShareasaleStream(RESTStream):
         next_page_date = datetime.strftime(next_page_token, date_format_str)
         if next_page_date:
             params["dateStart"] = next_page_date
-            end_datetime = datetime.strptime(
-                next_page_date,
-                date_format_str,
-            ) + timedelta(days=28)
-            params["dateEnd"] = datetime.strftime(end_datetime, date_format_str)
         return params
 
     def parse_response(self, response: requests.Response) -> Iterable[dict]:

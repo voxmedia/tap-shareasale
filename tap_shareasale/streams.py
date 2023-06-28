@@ -178,3 +178,4 @@ class ActivityStream(ShareasaleStream):
                 ).format(
                     "YYYY-MM-DD HH:mm:ss",
                 )
+        return new_row
