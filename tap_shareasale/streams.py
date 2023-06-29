@@ -178,4 +178,5 @@ class ActivityStream(ShareasaleStream):
                 ).format(
                     "YYYY-MM-DD HH:mm:ss",
                 )
+        new_row["Reference_Trans"] = ""
         return new_row
