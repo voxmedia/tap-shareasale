@@ -9,7 +9,7 @@ from tap_shareasale.client import ShareasaleStream
 
 
 def set_none_or_cast(value, expected_type):
-    if value == "" or value is None:
+    if value == "" or "NO DATA" in value or value is None:
         return None
     elif not isinstance(value, expected_type):
         return expected_type(value)
